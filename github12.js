@@ -753,6 +753,15 @@ if (document.readyState === "loading") {
     hideMJMessagesOnLoad();
 }
 
+const emoteMap = {
+    ":nyaggernap:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nyaggernap.jpg",
+    ":yakuless:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/yakuless.gif",
+    ":nightynightnyagger:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nightynightnyagger.png",
+    ":chinpo:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/chinpo.png",
+    ":sharingiscaring:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/sharingiscaring.png",
+    ":pardner:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/pardner.png"
+};
+
     const fplegend = document.createElement('p');
     fplegend.innerHTML = 'Options';
     fplegend.style.textAlign = 'center';
@@ -1182,12 +1191,14 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
                 }
             }
         }
-
-        if (offTopicEnabled && mymessage.innerHTML.includes(':MJ2:')) {
-            mymessage.innerHTML = mymessage.innerHTML.replace(/:MJ2:/g, 
-                '<img class="channel-emote" title=":MJ2:" src="https://raw.githubusercontent.com/puchigire/r/emotes/emotes/MJ2.jpg">');
+        if (offTopicEnabled) {
+            Object.keys(emoteMap).forEach(emote => {
+                if (mymessage.innerHTML.includes(emote)) {
+                    mymessage.innerHTML = mymessage.innerHTML.replace(new RegExp(emote, 'g'), 
+                        `<img class="channel-emote" title="${emote}" src="${emoteMap[emote]}">`);
+                }
+            });
         }
-
         if (soundpostState) {
             const emotes = mymessage.querySelectorAll('.channel-emote[title]');
             emotes.forEach((emote) => {
