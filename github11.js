@@ -1146,7 +1146,7 @@ function playSoundpost(emote, additionalPlayTime = defaultAdditionalPlayTime) {
     }, playDuration * 1000);
 }
 
-socket.on("chatMsg", ({ username, msg, meta, time }) => { 
+socket.on("chatMsg", ({ username, msg, meta, time }) => {
     if (username.toLowerCase() !== '[server]' && username.toLowerCase() !== '[voteskip]') {
         const mymessage = messageBuffer.lastElementChild.lastElementChild; 
         formatMessage(mymessage); 
@@ -1173,7 +1173,6 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
                 }
                 mymessage.innerHTML = mymessage.innerHTML.replace(/^MJ: /, ''); 
             }
-            return; 
         } else {
             if (parentElement) {
                 parentElement.style.display = 'block';
@@ -1183,6 +1182,12 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
                 }
             }
         }
+
+        if (offTopicEnabled && mymessage.innerHTML.includes(':MJ2:')) {
+            mymessage.innerHTML = mymessage.innerHTML.replace(/:MJ2:/g, 
+                '<img class="channel-emote" title=":MJ2:" src="https://raw.githubusercontent.com/puchigire/r/emotes/emotes/MJ2.jpg">');
+        }
+
         if (soundpostState) {
             const emotes = mymessage.querySelectorAll('.channel-emote[title]');
             emotes.forEach((emote) => {
@@ -1207,12 +1212,13 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
                     }
                 }
             });
+
             if (mymessage.innerHTML.startsWith('boo')) {
                 const myaudio = new Audio("https://cdn.jsdelivr.net/gh/om3tcw/r@emotes/soundposts/sounds/boo.ogg");
                 myaudio.volume = defaultVolume;
                 myaudio.play();
             }
         }
-        playedSoundposts = []; 
+        playedSoundposts = [];
     }
 });
