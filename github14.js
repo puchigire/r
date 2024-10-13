@@ -753,14 +753,7 @@ if (document.readyState === "loading") {
     hideMJMessagesOnLoad();
 }
 
-const emoteMap = {
-    ":nyaggernap:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nyaggernap.jpg",
-    ":yakuless:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/yakuless.gif",
-    ":nightynightnyagger:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nightynightnyagger.png",
-    ":chinpo:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/chinpo.png",
-    ":sharingiscaring:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/sharingiscaring.png",
-    ":pardner:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/pardner.png"
-};
+
 
     const fplegend = document.createElement('p');
     fplegend.innerHTML = 'Options';
@@ -1154,6 +1147,15 @@ function playSoundpost(emote, additionalPlayTime = defaultAdditionalPlayTime) {
         soundpost.totalPlayTime = 0;
     }, playDuration * 1000);
 }
+
+const emoteMap = {
+    ":nyaggernap:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nyaggernap.jpg",
+    ":yakuless:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/yakuless.gif",
+    ":nightynightnyagger:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nightynightnyagger.png",
+    ":chinpo:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/chinpo.png",
+    ":sharingiscaring:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/sharingiscaring.png",
+    ":pardner:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/pardner.png"
+};
 
 socket.on("chatMsg", ({ username, msg, meta, time }) => {
     if (username.toLowerCase() !== '[server]' && username.toLowerCase() !== '[voteskip]') {
