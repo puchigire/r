@@ -1194,10 +1194,10 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
             }
         }
 
-        // Check for :gargourd: and replace it with a 20% chance for the special image
+    
         if (mymessage.innerHTML.includes(':gargourd:')) {
-            if (Math.random() < 0.2) { // 20% chance
-                mymessage.innerHTML = mymessage.innerHTML.replace(/:gargourd:/g, 
+            if (Math.random() < 0.2) {
+                mymessage.innerHTML = mymessage.innerHTML.replace(/:gargourd:" src="https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/gargourd.png"> /g, 
                     `<img class="channel-emote" title=":gargourd:" src="https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/gargerd.png">`);
             }
             // Existing line to replace :gargourd: with the default image remains here
