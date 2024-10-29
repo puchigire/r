@@ -1200,6 +1200,8 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
         }
 
         Object.keys(emoteMap).forEach(emote => {
+            if (emote === ':gargourd:') return;
+
             const escapedEmote = emote.replace(/[-\/\\^$.*+?()[\]{}|]/g, '\\$&'); 
             if (offTopicEnabled) {
                 if (mymessage.innerHTML.includes(emote)) {
