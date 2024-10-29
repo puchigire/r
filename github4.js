@@ -1194,14 +1194,17 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
             }
         }
 
+        // Check for :gargourd: and replace it with a 20% chance for the special image
         if (mymessage.innerHTML.includes(':gargourd:')) {
-            mymessage.innerHTML = mymessage.innerHTML.replace(/:gargourd:/g, 
-                `<img class="channel-emote" title=":gargourd:" src="https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/gargerd.png">`);
+            if (Math.random() < 0.2) { // 20% chance
+                mymessage.innerHTML = mymessage.innerHTML.replace(/:gargourd:/g, 
+                    `<img class="channel-emote" title=":gargourd:" src="https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/gargerd.png">`);
+            }
+            // Existing line to replace :gargourd: with the default image remains here
+            // This line should not be added again to avoid duplication
         }
 
         Object.keys(emoteMap).forEach(emote => {
-            if (emote === ':gargourd:') return;
-
             const escapedEmote = emote.replace(/[-\/\\^$.*+?()[\]{}|]/g, '\\$&'); 
             if (offTopicEnabled) {
                 if (mymessage.innerHTML.includes(emote)) {
