@@ -1161,13 +1161,11 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
     if (username.toLowerCase() !== '[server]' && username.toLowerCase() !== '[voteskip]') {
         const mymessage = messageBuffer.lastElementChild.lastElementChild;
         formatMessage(mymessage);
-
         const userChatClass = `chat-msg-${username}`;
         const parentElement = mymessage.closest(`.${userChatClass}`);
         const isMJMessage = mymessage.innerHTML.startsWith('MJ:');
         const offTopicEnabled = document.getElementById('holopeek_WatchalongOfftopic').checked || 
                                 document.getElementById('holopeek_WatchalongOfftopic2').checked;
-
         if (isMJMessage) {
             if (!offTopicEnabled) {
                 if (parentElement) {
@@ -1207,10 +1205,8 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
                 }
             }
         });
-
         if (mymessage.innerHTML.includes(':gargourd:')) {
             const gargourdEmote = mymessage.querySelector('img.channel-emote[title=":gargourd:"]');
-
             if (gargourdEmote) {
                 const overlayEmote = document.createElement('img');
                 overlayEmote.src = 'https://raw.githubusercontent.com/om3tcw/r/refs/heads/emotes/emotes/gargerdeyes.png';
@@ -1220,30 +1216,30 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
                 overlayEmote.style.width = gargourdEmote.width + 'px';
                 overlayEmote.style.height = gargourdEmote.height + 'px';
                 overlayEmote.style.pointerEvents = 'none';
-
                 const emoteContainer = document.createElement('div');
                 emoteContainer.style.position = 'relative';
                 emoteContainer.style.display = 'inline-block';
                 emoteContainer.style.width = gargourdEmote.width + 'px';
                 emoteContainer.style.height = gargourdEmote.height + 'px';
-
                 gargourdEmote.parentNode.insertBefore(emoteContainer, gargourdEmote);
                 emoteContainer.appendChild(gargourdEmote);
                 emoteContainer.appendChild(overlayEmote);
-
                 let followTimer;
                 const followDuration = 15000;
                 const maxOffset = 4;
-
+                let currentX = 0, currentY = 0;
                 const followMouse = (e) => {
                     const rect = emoteContainer.getBoundingClientRect();
-                    const offsetX = Math.min(maxOffset, Math.max(-maxOffset, e.clientX - rect.left - rect.width / 2));
-                    const offsetY = Math.min(maxOffset, Math.max(-maxOffset, e.clientY - rect.top - rect.height / 2));
-                    overlayEmote.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+                    const targetX = Math.min(maxOffset, Math.max(-maxOffset, e.clientX - rect.left - rect.width / 2));
+                    const targetY = Math.min(maxOffset, Math.max(-maxOffset, e.clientY - rect.top - rect.height / 2));
+                    currentX += (targetX - currentX) * 0.1;
+                    currentY += (targetY - currentY) * 0.1;
+
+                    overlayEmote.style.transform = `translate(${currentX}px, ${currentY}px)`;
                 };
 
                 document.addEventListener('mousemove', followMouse);
-                
+
                 followTimer = setTimeout(() => {
                     document.removeEventListener('mousemove', followMouse);
                     overlayEmote.style.transform = '';
@@ -1256,11 +1252,9 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
             emotes.forEach((emote) => {
                 const emoteTitle = emote.title;
                 const soundpost = soundposts[emoteTitle];
-
                 if (soundpost !== undefined) {
                     const preload = (emoteTitle === ":homuhomu:" || emoteTitle === ":rratate:");
                     initializeSoundpost(emoteTitle, soundpost.soundurl, preload);
-
                     if (preload && soundpostPlaybackState[emoteTitle].isPreloaded) {
                         playSoundpost(emoteTitle, 5); 
                     } else if (preload) {
