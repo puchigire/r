@@ -1159,11 +1159,11 @@ const emoteMap = {
 
 socket.on("chatMsg", ({ username, msg, meta, time }) => {
     if (username.toLowerCase() !== '[server]' && username.toLowerCase() !== '[voteskip]') {
-        const mymessage = messageBuffer.lastElementChild.lastElementChild; 
-        formatMessage(mymessage); 
+        const mymessage = messageBuffer.lastElementChild.lastElementChild;
+        formatMessage(mymessage);
 
-        const userChatClass = `chat-msg-${username}`; 
-        const parentElement = mymessage.closest(`.${userChatClass}`); 
+        const userChatClass = `chat-msg-${username}`;
+        const parentElement = mymessage.closest(`.${userChatClass}`);
         const isMJMessage = mymessage.innerHTML.startsWith('MJ:');
         const offTopicEnabled = document.getElementById('holopeek_WatchalongOfftopic').checked || 
                                 document.getElementById('holopeek_WatchalongOfftopic2').checked;
@@ -1171,41 +1171,31 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
         if (isMJMessage) {
             if (!offTopicEnabled) {
                 if (parentElement) {
-                    parentElement.style.display = 'none'; 
-                    hiddenMJMessages.push(parentElement); 
+                    parentElement.style.display = 'none';
+                    hiddenMJMessages.push(parentElement);
                 }
-            } else {             
+            } else {
                 if (parentElement) {
-                    parentElement.style.display = 'block'; 
+                    parentElement.style.display = 'block';
                     const timestampElem = parentElement.querySelector('.timestamp');
                     if (timestampElem) {
                         timestampElem.style.backgroundImage = "url('https://raw.githubusercontent.com/om3tcw/r/refs/heads/emotes/eyes/nyagger.png')";
                     }
                 }
-                mymessage.innerHTML = mymessage.innerHTML.replace(/^MJ: /, ''); 
+                mymessage.innerHTML = mymessage.innerHTML.replace(/^MJ: /, '');
             }
         } else {
             if (parentElement) {
                 parentElement.style.display = 'block';
                 const timestampElem = parentElement.querySelector('.timestamp');
                 if (timestampElem) {
-                    timestampElem.style.backgroundImage = ''; 
+                    timestampElem.style.backgroundImage = '';
                 }
             }
         }
 
-    
-        if (mymessage.innerHTML.includes(':gargourd:')) {
-            if (Math.random() < 0.2) {
-                mymessage.innerHTML = mymessage.innerHTML.replace(/:gargourd:" src="https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/gargourd.png"> /g, 
-                    `<img class="channel-emote" title=":gargourd:" src="https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/gargerd.png">`);
-            }
-            // Existing line to replace :gargourd: with the default image remains here
-            // This line should not be added again to avoid duplication
-        }
-
         Object.keys(emoteMap).forEach(emote => {
-            const escapedEmote = emote.replace(/[-\/\\^$.*+?()[\]{}|]/g, '\\$&'); 
+            const escapedEmote = emote.replace(/[-\/\\^$.*+?()[\]{}|]/g, '\\$&');
             if (offTopicEnabled) {
                 if (mymessage.innerHTML.includes(emote)) {
                     mymessage.innerHTML = mymessage.innerHTML.replace(new RegExp(escapedEmote, 'g'), 
@@ -1217,6 +1207,47 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
                 }
             }
         });
+
+        if (mymessage.innerHTML.includes(':gargourd:')) {
+            const gargourdEmote = mymessage.querySelector('img.channel-emote[title=":gargourd:"]');
+
+            if (gargourdEmote) {
+                const overlayEmote = document.createElement('img');
+                overlayEmote.src = 'https://raw.githubusercontent.com/om3tcw/r/refs/heads/emotes/emotes/gargerdeyes.png';
+                overlayEmote.style.position = 'absolute';
+                overlayEmote.style.width = gargourdEmote.width + 'px';
+                overlayEmote.style.height = gargourdEmote.height + 'px';
+                overlayEmote.style.pointerEvents = 'none';
+
+                const emoteContainer = document.createElement('div');
+                emoteContainer.style.position = 'relative';
+                emoteContainer.style.display = 'inline-block';
+                emoteContainer.style.width = gargourdEmote.width + 'px';
+                emoteContainer.style.height = gargourdEmote.height + 'px';
+
+                gargourdEmote.parentNode.insertBefore(emoteContainer, gargourdEmote);
+                emoteContainer.appendChild(gargourdEmote);
+                emoteContainer.appendChild(overlayEmote);
+
+                let followTimer;
+                const followDuration = 15000;
+                const maxOffset = 4;
+
+                const followMouse = (e) => {
+                    const rect = emoteContainer.getBoundingClientRect();
+                    const offsetX = Math.min(maxOffset, Math.max(-maxOffset, e.clientX - rect.left - rect.width / 2));
+                    const offsetY = Math.min(maxOffset, Math.max(-maxOffset, e.clientY - rect.top - rect.height / 2));
+                    overlayEmote.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+                };
+
+                document.addEventListener('mousemove', followMouse);
+                
+                followTimer = setTimeout(() => {
+                    document.removeEventListener('mousemove', followMouse);
+                    overlayEmote.style.transform = '';
+                }, followDuration);
+            }
+        }
 
         if (soundpostState) {
             const emotes = mymessage.querySelectorAll('.channel-emote[title]');
