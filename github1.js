@@ -334,7 +334,6 @@ var randomEmotePool= [
 	,"https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/anyaminecraft.png"
 	,"https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/anyaclif.png"
 	,"https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/anyasalman.png"
-        ,"https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/anyacado.png"
 	,"https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/anyaeggsandwich.png"
 	,"https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/anyashitpost.png"
 	,"https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/anyacereal.png"
@@ -1154,8 +1153,11 @@ const emoteMap = {
     ":nightynightnyagger:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nightynightnyagger.png",
     ":chinpo:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/chinpo.png",
     ":sharingiscaring:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/sharingiscaring.png",
-    ":pardner:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/pardner.png"
+    ":pardner:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/pardner.png",
+  ":nyaggerfed:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nyaggerfed.png",
+  ":nyaggerfish:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nyaggerfish.png"
 };
+
 
 socket.on("chatMsg", ({ username, msg, meta, time }) => {
     if (username.toLowerCase() !== '[server]' && username.toLowerCase() !== '[voteskip]') {
