@@ -1102,4 +1102,185 @@ $("#messagebuffer a").parent().parent().each(function () {
         if (opt.setupFunc) opt.setupFunc(opt);
     });
 
+    // Cookie buttons
+    const cookieDiv = $('<div>', {
+        id: 'cookieDiv'
+    }).appendTo(holoBubble);
+
+    const saveButton = $('<button>', {
+        id: 'saveButton',
+        html: 'Save<img width="24" height="24" alt="save" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAbUlEQVQ4y2NgGLTAk+Exw38csB6bhkc4lePQAhLGDsIZfmPTAtGAaTZOLfg0gLRguAC/BgaqacANqKuBjaGd4RkQtgNZRGnogPuggzgNT+EantJIA8lOItnTRAUr/uQNgo+Iz0Ag+JjBY9BmfgAjpbf/V5agRgAAAABJRU5ErkJggg==">',
+        click: () => {
+            options.forEach(opt => {
+                const valueElem = opt.textarea ? 'textarea' : opt.range ? 'range' : opt.text ? 'text' : null;
+                const value = valueElem ? opt[valueElem].value : $(`#holopeek_${opt.id}`).prop('checked') ? 1 : 0;
+                document.cookie = $(`#holopeek_${opt.id}`).prop('checked')
+                    ? `${opt.id}=${window.btoa(unescape(encodeURIComponent(value)))};path=/;expires=${new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365).toGMTString()};`
+                    : `${opt.id}=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+            });
+        }
+    }).appendTo(cookieDiv);
+
+    const resetButton = $('<button>', {
+        id: 'resetButton',
+        html: 'Reset<img width="24" height="24" alt="save" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAPElEQVQ4y2NgGAJAgeE+w38ovA/k4QH/8UDqaCADkGw+WRqIERvVMNQ1PMKaMB7h1uDB8BhD+WOg6OAGADZZd6fzGEl6AAAAAElFTkSuQmCC">',
+        click: () => {
+            options.forEach(opt => {
+                document.cookie = `${opt.id}=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+                $(`#holopeek_${opt.id}`).prop('checked', false);
+            });
+        }
+    }).appendTo(cookieDiv);
+
+    // Holopeek CSS
+    const css = `
+    #holopeek {
+        width: 57px;
+        height: 60px;
+        z-index: 2147483647;
+        position: fixed;
+        padding: 0;
+        bottom: 0;
+        right: 42px;
+        border: none;
+        outline: none;
+        background: none;
+        background-image: url('https:///raw.githubusercontent.com/om3tcw/r/emotes/holopeek/polkapeek.png');
+        background-repeat: no-repeat;
+        image-rendering: crisp-edges;
+    }
+    .holoAnim {
+        animation: peek-out ease-in 0.2s both;
+    }
+    .holoAnim:hover {
+        animation: peek-in ease-out 0.2s both;
+    }
+    @keyframes peek-in {
+        from { background-position: 0px 60px; }
+        to { background-position: 0px 0; }
+    }
+    @keyframes peek-out {
+        from { background-position: 0px 0; }
+        to { background-position: 0px 60px; }
+    }
+    #holoBubble {
+        flex-grow: 0;
+        flex-direction: column;
+        padding: 12px 16px;
+        z-index: 2147483647;
+        position: fixed;
+        bottom: 48px;
+        right: 90px;
+        background: #fff;
+        border-radius: 8px;
+        max-height: 50%;
+    }
+    #holoBubble button {
+        color: #000;
+    }
+    #holoBubble textarea {
+        width: 100%;
+        min-height: 128px;
+        margin-bottom: 5px;
+        resize: both;
+    }
+    #holoBubble label {
+        color: #888;
+    }
+    #holoBubble input[type=checkbox] {
+        margin-right: 8px;
+    }
+    #holoBubble input[type=range] {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    #holoTail {
+        width: 50px;
+        height: 25px;
+        z-index: 2147483647;
+        position: fixed;
+        bottom: 42px;
+        right: 122px;
+        background: #fff;
+        transform: skew(15deg, 15deg);
+    }
+    #cookieDiv {
+        margin-top: 12px;
+        display: flex;
+    }
+    #cookieDiv button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #cookieDiv button img {
+        margin-left: 4px;
+    }
+    #fpOptContainer {
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+    }
+    #resetButton {
+        margin-left: 16px;
+    }
+    #pinContainer {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    #pin-dropdown > .dropdown-menu {
+        width: 384px;
+        max-height: calc(100vh - 50px);
+        overflow-y: scroll;
+        padding: 0;
+        margin: 0;
+        border: none;
+    }
+    #pinContainer > li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 8px 0;
+    }
+    .pin-message {
+        width: calc(100% - 32px);
+        overflow-wrap: break-word;
+        padding: 0 4px;
+    }
+    .pin-close {
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        margin: auto 4px;
+        color: #fff;
+        background: #888;
+        border: none;
+        outline: none;
+        transition: 0.2s;
+    }
+    .pin-close:hover {
+        background: #ccc;
+        color: #333;
+    }
+    .navbar {
+        background: #0008 !important;
+    }
+`;
+
+    const style = document.createElement('style');
+    if (style.styleSheet)
+        style.styleSheet.cssText = css;
+    else
+        style.appendChild(document.createTextNode(css));
+    document.getElementsByTagName('head')[0].appendChild(style);
+
+})();
+
+$('#messagebuffer').off('click').click(e => {
+    let t = e.target, p = t.parentElement;
+    if (e.button != 0) return;
+    if (t.className == 'channel-emote')
+        $('#chatline').val((i, v) => v + e.target.title + " ").focus();
+});
 
