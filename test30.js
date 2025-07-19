@@ -1641,7 +1641,7 @@ const emoteMap = {
 };
 
 function cleanupSoundpostPlaybackState() {
-    const limit = 100; 
+    const limit = 40; 
     const keys = Object.keys(soundpostPlaybackState);
     if (keys.length > limit) {
         const toDelete = keys.slice(0, keys.length - limit);
