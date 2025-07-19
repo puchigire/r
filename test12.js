@@ -1084,22 +1084,6 @@ $("#messagebuffer a").parent().parent().each(function () {
             }).appendTo(fpOptContainer);
         }
 
-        if (opt.text) {
-            const textElem = $('<input>', {
-                id: `${optId}_text`,
-                type: 'text',
-                val: opt.text.value,
-                on: {
-                    input: () => {
-                        checkboxElem.prop('checked', false);
-                        opt.text.value = textElem.val();
-                    }
-                }
-            }).appendTo(fpOptContainer);
-        }
-
-        if (opt.setupFunc) opt.setupFunc(opt);
-    });
 
 
 
