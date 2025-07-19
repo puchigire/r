@@ -1044,7 +1044,6 @@ $("#messagebuffer a").parent().parent().each(function () {
                     checkboxElem.triggerHandler('click');
                 }
             }, 100);
-        }
 
 
 
