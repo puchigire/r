@@ -1064,25 +1064,6 @@ $("#messagebuffer a").parent().parent().each(function () {
                     }
                 }
             }).appendTo(fpOptContainer);
-        }
-
-        if (opt.range) {
-            const rangeElem = $('<input>', {
-                id: `${optId}_range`,
-                type: 'range',
-                css: { display: 'inline-block' },
-                min: opt.range.min,
-                max: opt.range.max,
-                step: opt.range.step,
-                val: opt.range.value,
-                on: {
-                    input: () => {
-                        checkboxElem.prop('checked', false);
-                        opt.range.value = rangeElem.val();
-                    }
-                }
-            }).appendTo(fpOptContainer);
-        }
 
 
 
