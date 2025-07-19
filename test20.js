@@ -433,4 +433,4 @@ $("#messagebuffer a").parent().parent().each(function () {
     $("#emotelistbtn").click(function () {
         $(this).css("background-image", "url(" + drawRandomEmote() + ")");
     }).html("");
-})();
+});
