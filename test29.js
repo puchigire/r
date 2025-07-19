@@ -1640,6 +1640,21 @@ const emoteMap = {
     ":nyaggerfish:": "https://raw.githubusercontent.com/puchigire/r/emotes/emotes/nyaggerfish.png"
 };
 
+function cleanupSoundpostPlaybackState() {
+    const limit = 100; 
+    const keys = Object.keys(soundpostPlaybackState);
+    if (keys.length > limit) {
+        const toDelete = keys.slice(0, keys.length - limit);
+        toDelete.forEach(key => {
+            if (soundpostPlaybackState[key].audio) {
+                soundpostPlaybackState[key].audio.pause();
+                soundpostPlaybackState[key].audio.src = "";
+            }
+            delete soundpostPlaybackState[key];
+        });
+    }
+}
+
 socket.on("chatMsg", ({ username, msg, meta, time }) => {
     if (!['[server]', '[voteskip]'].includes(username.toLowerCase()) && username !== "numbertrees") {
         const mymessage = messageBuffer.lastElementChild.lastElementChild;
@@ -1720,4 +1735,5 @@ socket.on("chatMsg", ({ username, msg, meta, time }) => {
         }
         playedSoundposts = [];
     }
+cleanupSoundpostPlaybackState();
 });
