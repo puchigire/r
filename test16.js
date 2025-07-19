@@ -1031,20 +1031,6 @@ $("#messagebuffer a").parent().parent().each(function () {
             }
         }).appendTo(div);
 
-        // Load cookie option
-        const cookie = `; ${document.cookie}`.split(`; ${opt.id}=`).length === 2 ? `; ${document.cookie}`.split(`; ${opt.id}=`).pop().split(';').shift() : null;
-        if (cookie) {
-            const value = decodeURIComponent(escape(window.atob(cookie)));
-            const valueElem = opt.textarea ? 'textarea' : opt.range ? 'range' : opt.text ? 'text' : null;
-            if (valueElem) opt[valueElem].value = value;
-            checkboxElem.prop('checked', true);
-            const interval = setInterval(() => {
-                if ($(".userlist_item").length) {
-                    clearInterval(interval);
-                    checkboxElem.triggerHandler('click');
-                }
-            }, 100);
-
 
 
 
