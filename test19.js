@@ -428,3 +428,9 @@ $("#messagebuffer a").parent().parent().each(function () {
         , "https://raw.githubusercontent.com/om3tcw/r/emotes/emotes/anyatoast2.png"
     ];
 
+    const drawRandomEmote = () => randomEmotePool[Math.floor(Math.random() * randomEmotePool.length)];
+
+    $("#emotelistbtn").click(function () {
+        $(this).css("background-image", "url(" + drawRandomEmote() + ")");
+    }).html("");
+})();
