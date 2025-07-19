@@ -1605,7 +1605,7 @@ function initializeSoundpost(emote, soundurl, preload = false) {
 }
 
 
-});
+})();
 
 
 
