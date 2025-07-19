@@ -1046,25 +1046,6 @@ $("#messagebuffer a").parent().parent().each(function () {
             }, 100);
         }
 
-        const label = $('<label>', {
-            id: `${optId}_label`,
-            text: opt.desc,
-            title: opt.id,
-            for: optId
-        }).appendTo(div);
-
-        if (opt.textarea) {
-            const textareaElem = $('<textarea>', {
-                id: `${optId}_textarea`,
-                val: opt.textarea.value,
-                on: {
-                    input: () => {
-                        checkboxElem.prop('checked', false);
-                        opt.textarea.value = textareaElem.val();
-                    }
-                }
-            }).appendTo(fpOptContainer);
-
 
 
 
